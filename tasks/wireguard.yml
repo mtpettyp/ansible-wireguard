@@ -1,0 +1,53 @@
+---
+- name: Install dependencies
+  apt:
+    name:
+      - wireguard
+
+- name: Generate private key
+  shell: |
+      umask 077
+      wg genkey > /etc/wireguard/privatekey
+  args:
+    chdir: /etc/wireguard
+    creates: /etc/wireguard/privatekey
+
+- name: Load private key
+  slurp:
+    src: /etc/wireguard/privatekey
+  register: private_key_file
+
+- name: Set private key
+  set_fact:
+    server_private_key: "{{ private_key_file['content'] | b64decode }}"
+
+- name: Generate public key
+  shell: |
+      umask 077
+      wg pubkey > publickey
+  args:
+    stdin: "{{ server_private_key }}"
+    chdir: /etc/wireguard
+    creates: /etc/wireguard/publickey
+
+- name: Create WireGuard configuration file
+  template:
+    src: wg0.conf.j2
+    dest: /etc/wireguard/wg0.conf
+    owner: root
+    mode: 077
+  notify: Restart WireGuard
+
+- name: Enable IP forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: Start and enable WireGuard service
+  service:
+    name: "wg-quick@wg0"
+    state: started
+    enabled: yes

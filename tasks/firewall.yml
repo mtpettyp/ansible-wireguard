@@ -1,0 +1,15 @@
+---
+- name: Install ufw
+  apt:
+    name:
+      - ufw
+
+- name: Enable ufw
+  ufw:
+    state: enabled
+
+- name: Allow WireGuard
+  ufw:
+    rule: allow
+    port: "51820"
+    proto: udp

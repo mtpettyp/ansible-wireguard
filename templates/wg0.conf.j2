@@ -1,0 +1,14 @@
+
+[Interface]
+Address = {{ route_address | default('0.0.0.0/0') }}
+ListenPort = 51820
+PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+PrivateKey = {{ server_private_key }}
+
+{% for peer in peers %}
+[Peer]
+PublicKey = {{ peer.public_key }}
+AllowedIPs = {{ peer.allowed_ips | default('0.0.0.0/0') }}
+
+{% endfor %}
