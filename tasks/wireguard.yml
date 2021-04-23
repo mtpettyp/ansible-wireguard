@@ -35,7 +35,7 @@
     src: wg0.conf.j2
     dest: /etc/wireguard/wg0.conf
     owner: root
-    mode: 077
+    mode: "077"
   notify: Restart WireGuard
 
 - name: Enable IP forwarding
