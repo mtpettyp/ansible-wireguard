@@ -24,13 +24,8 @@ Example Playbook
 - hosts: all
   vars:
     route_address: 10.0.0.1/24
-    peers:
-      - name: server1
-        public_key: 6SeYZu1fy/yoG4EDZwCZ9yZbEMKBL0un3EzcyOYCQAw=
-        allowed_ips: 10.0.0.2/24
-      - name: server2
-        public_key: C2pw84c7zwaTuoQbuYiGjCBHIKtedRMB1EYc+GkhTis=
-        allowed_ips: 10.0.0.3/24
+    wireguard_ui:
+      password: abc123
   include_role:
     name: "ansible-wireguard"
 ```

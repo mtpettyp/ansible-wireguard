@@ -4,3 +4,8 @@
   service:
     name: wg-quick@wg0
     state: restarted
+
+- name: Restart wireguard-ui
+  service:
+    name: wireguard-ui
+    state: restarted
