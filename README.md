@@ -12,10 +12,7 @@ Role Variables
 --------------
 
 * `route_address` - Address range the node should route traffic for (defaults to 10.0.0.1/24)
-* `peers` - List of peers to create
-    * `name` - Peer name
-    * `public_key` - Public key of peer
-    * `allowed_ips` - IPs of peer (set in client's `Address` under `[Interface]`)
+* `wireguard_ui.password` - Password for Wireguard UI
 
 Example Playbook
 ----------------
