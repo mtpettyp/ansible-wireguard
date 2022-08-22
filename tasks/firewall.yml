@@ -1,15 +1,15 @@
 ---
 - name: Install ufw
-  apt:
+  ansible.builtin.apt:
     name:
       - ufw
 
 - name: Enable ufw
-  ufw:
+  ansible.builtin.ufw:
     state: enabled
 
 - name: Allow WireGuard
-  ufw:
+  ansible.builtin.ufw:
     rule: allow
     port: "51820"
     proto: udp

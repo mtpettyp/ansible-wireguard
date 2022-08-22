@@ -1,11 +1,11 @@
 ---
 - name: Install dependencies
-  apt:
+  ansible.builtin.apt:
     name:
       - wireguard
 
 - name: Generate private key
-  shell: |
+  ansible.builtin.shell: |
       umask 077
       wg genkey > /etc/wireguard/privatekey
   args:
@@ -13,16 +13,16 @@
     creates: /etc/wireguard/privatekey
 
 - name: Load private key
-  slurp:
+  ansible.builtin.slurp:
     src: /etc/wireguard/privatekey
   register: private_key_file
 
 - name: Set private key
-  set_fact:
+  ansible.builtin.set_fact:
     server_private_key: "{{ private_key_file['content'] | b64decode }}"
 
 - name: Generate public key
-  shell: |
+  ansible.builtin.shell: |
       umask 077
       wg pubkey > publickey
   args:
@@ -31,15 +31,15 @@
     creates: /etc/wireguard/publickey
 
 - name: Create WireGuard configuration file
-  template:
+  ansible.builtin.template:
     src: wg0.conf.j2
     dest: /etc/wireguard/wg0.conf
     owner: root
-    mode: "077"
+    mode: 0600
   notify: Restart WireGuard
 
 - name: Enable IP forwarding
-  sysctl:
+  ansible.builtin.sysctl:
     name: net.ipv4.ip_forward
     value: '1'
     sysctl_set: yes
@@ -47,7 +47,7 @@
     reload: yes
 
 - name: Start and enable WireGuard service
-  service:
+  ansible.builtin.service:
     name: "wg-quick@wg0"
     state: started
     enabled: yes

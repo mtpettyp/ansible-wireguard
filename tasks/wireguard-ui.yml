@@ -3,6 +3,7 @@
   ansible.builtin.get_url:
     url: 'https://github.com/ngoduykhanh/wireguard-ui/releases/download/v0.3.7/wireguard-ui-v0.3.7-linux-386.tar.gz'
     dest:  /tmp/wireguard-ui.tar.gz
+    mode: 0644
 
 - name: Extract into /usr/bin
   ansible.builtin.unarchive:
@@ -11,25 +12,27 @@
     remote_src: yes
 
 - name: Create wireguard-ui conf directory
-  file:
+  ansible.builtin.file:
     path: /etc/wireguard-ui/
     state: directory
+    mode: 0700
 
 - name: Create wireguard-ui configuration file
-  template:
+  ansible.builtin.template:
     src: wireguard-ui.conf.j2
     dest: /etc/wireguard-ui/wireguard-ui.conf
     owner: root
-    mode: "077"
+    mode: 0600
   notify: Restart wireguard-ui
 
 - name: Copy systemd service
   ansible.builtin.copy:
      src: files/wireguard-ui.service
      dest: /etc/systemd/system/wireguard-ui.service
+     mode: 0644
 
 - name: Start and enable wireguard-ui service
-  service:
+  ansible.builtin.service:
     name: wireguard-ui
     state: started
     enabled: yes
@@ -38,12 +41,13 @@
   ansible.builtin.copy:
      src: files/{{ item }}
      dest: /etc/systemd/system/
+     mode: 0644
   with_items:
     - wgui.path
     - wgui.service
 
 - name: Start and enable auto restart services
-  service:
+  ansible.builtin.service:
     name: "{{ item }}"
     state: started
     enabled: yes
@@ -52,6 +56,6 @@
     - wireguard-ui
 
 - name: Enable wgui.service
-  service:
+  ansible.builtin.service:
     name: wgui.service
     enabled: yes
