@@ -4,32 +4,6 @@
     name:
       - wireguard
 
-- name: Generate private key
-  ansible.builtin.shell: |
-      umask 077
-      wg genkey > /etc/wireguard/privatekey
-  args:
-    chdir: /etc/wireguard
-    creates: /etc/wireguard/privatekey
-
-- name: Load private key
-  ansible.builtin.slurp:
-    src: /etc/wireguard/privatekey
-  register: private_key_file
-
-- name: Set private key
-  ansible.builtin.set_fact:
-    server_private_key: "{{ private_key_file['content'] | b64decode }}"
-
-- name: Generate public key
-  ansible.builtin.shell: |
-      umask 077
-      wg pubkey > publickey
-  args:
-    stdin: "{{ server_private_key }}"
-    chdir: /etc/wireguard
-    creates: /etc/wireguard/publickey
-
 - name: Create WireGuard configuration file
   ansible.builtin.template:
     src: wg0.conf.j2
