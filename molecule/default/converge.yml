@@ -7,6 +7,13 @@
         name: "ansible-wireguard"
       tags:
         - always
+    - name: Allow WireGuard UI in Molecule
+      ansible.builtin.ufw:
+        rule: allow
+        port: 5000
+        proto: tcp
+      tags:
+        - always
   vars:
     wireguard_ui:
       password: abc123
