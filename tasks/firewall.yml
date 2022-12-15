@@ -5,11 +5,11 @@
       - ufw
 
 - name: Enable ufw
-  ansible.builtin.ufw:
+  community.general.ufw:
     state: enabled
 
 - name: Allow WireGuard
-  ansible.builtin.ufw:
+  community.general.ufw:
     rule: allow
     port: "51820"
     proto: udp

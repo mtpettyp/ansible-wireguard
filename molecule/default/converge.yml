@@ -8,7 +8,7 @@
       tags:
         - always
     - name: Allow WireGuard UI in Molecule
-      ansible.builtin.ufw:
+      community.general.ufw:
         rule: allow
         port: 5000
         proto: tcp

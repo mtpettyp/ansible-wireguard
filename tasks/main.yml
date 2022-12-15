@@ -4,11 +4,14 @@
     cache_valid_time: 86400
     update_cache: yes
 
-- import_tasks: firewall.yml
+- name: Import Firewall tasks
+  ansible.builtin.import_tasks: firewall.yml
   tags: firewall
 
-- import_tasks: wireguard.yml
+- name: Import Wireguard tasks
+  ansible.builtin.import_tasks: wireguard.yml
   tags: wireguard
 
-- import_tasks: wireguard-ui.yml
+- name: Import Wireguard UI tasks
+  ansible.builtin.import_tasks: wireguard-ui.yml
   tags: wireguard-ui
