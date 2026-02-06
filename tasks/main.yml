@@ -2,16 +2,19 @@
 - name: Update packages
   ansible.builtin.apt:
     cache_valid_time: 86400
-    update_cache: yes
+    update_cache: true
 
 - name: Import Firewall tasks
-  ansible.builtin.import_tasks: firewall.yml
+  ansible.builtin.import_tasks:
+    file: firewall.yml
   tags: firewall
 
 - name: Import Wireguard tasks
-  ansible.builtin.import_tasks: wireguard.yml
+  ansible.builtin.import_tasks:
+    file: wireguard.yml
   tags: wireguard
 
 - name: Import Wireguard UI tasks
-  ansible.builtin.import_tasks: wireguard-ui.yml
+  ansible.builtin.import_tasks:
+    file: wireguard-ui.yml
   tags: wireguard-ui

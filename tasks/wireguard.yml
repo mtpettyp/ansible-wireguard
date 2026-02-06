@@ -9,19 +9,19 @@
     src: wg0.conf.j2
     dest: /etc/wireguard/wg0.conf
     owner: root
-    mode: 0600
+    mode: "0600"
   notify: Restart WireGuard
 
 - name: Enable IP forwarding
   ansible.posix.sysctl:
     name: net.ipv4.ip_forward
     value: '1'
-    sysctl_set: yes
+    sysctl_set: true
     state: present
-    reload: yes
+    reload: true
 
 - name: Start and enable WireGuard service
   ansible.builtin.service:
     name: "wg-quick@wg0"
     state: started
-    enabled: yes
+    enabled: true

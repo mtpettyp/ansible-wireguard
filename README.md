@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/mtpettyp/ansible-wireguard.svg?style=svg)](https://circleci.com/gh/mtpettyp/ansible-wireguard)
+[![Test](https://github.com/mtpettyp/ansible-wireguard/actions/workflows/test.yml/badge.svg)](https://github.com/mtpettyp/ansible-wireguard/actions/workflows/test.yml)
 
 
 
@@ -28,8 +28,23 @@ Example Playbook
 ```
 
 
+Development
+-----------
+
+Install dependencies:
+
+```bash
+uv sync
+```
+
+Run molecule tests:
+
+```bash
+uv run molecule test
+```
+
+
 License
 -------
 
 MIT
-
